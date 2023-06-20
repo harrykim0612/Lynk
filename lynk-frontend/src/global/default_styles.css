@@ -1,0 +1,11 @@
+:root {
+    --header_height: 100px;
+    --group_header_height: 100px;
+    --write_post_height: 60px;
+    --sidebar_width: 250px;
+    --title_height: 10px;
+    --group_height: 24px;
+    --content_height: 60px;
+    --write_comment_height: 60px;
+    --send_message_height: 60px;
+}

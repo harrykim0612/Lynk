@@ -1,0 +1,50 @@
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+@import '../../global/default_styles.css';
+
+
+.container {
+    position: absolute;
+    color: #7A7067;
+    font-family:'NanumSquare', sans-serif;
+    left: var(--sidebar_width);
+    top: var(--header_height);
+    width: calc(100vw - var(--sidebar_width));
+    height: calc(100vh - var(--header_height));
+}
+
+.title {
+    position:absolute;
+    color: #7A7067;
+    margin: 10px 10px 10px 80px;
+    font-size: x-large;
+    font-weight: 1000;
+}
+
+.header {
+    position:absolute;
+    color: #7A7067;
+    font-size: medium;
+    font-weight: 100;
+}
+
+.button {
+    position: absolute;
+    width: 250px;
+    height: 50px;
+    top: 200px;
+}
+
+.textfield {
+    position: relative;
+    width: 250px;
+    margin-bottom: 10px;
+    background-color: #FFFFFF;
+}
+
+
+
+
+
+
+
+

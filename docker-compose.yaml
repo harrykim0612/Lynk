@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  lnk-frontend:
+    build:
+      context: ./lnk-frontend
+      dockerfile: Dockerfile.dev
+    container_name: lnk-frontend
+    links:
+      - "lnk-login"
+      - "lnk-register"
+    depends_on:
+      - lnk-login
+      - lnk-register
+    restart: always
+    ports:
+      - "3000:3000"
+  lnk-login:
+    build:
+      context: ./lnk-login
+      dockerfile: Dockerfile.dev
+    container_name: lnk-login
+    restart: always
+    ports:
+      - "8081:8081"
+  lnk-register:
+    build:
+      context: ./lnk-register
+      dockerfile: Dockerfile.dev
+    container_name: lnk-register
+    restart: always
+    ports:
+      - "8080:8080"

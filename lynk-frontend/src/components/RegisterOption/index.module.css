@@ -1,0 +1,44 @@
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+@import '../../global/default_styles.css';
+
+.container {
+    position: fixed;
+    width: 100%;
+    height: var(--header_height);
+    font-family:'NanumSquare', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    background-color: white;
+    left: 0px;
+    top: 0px;
+}
+
+.logo {
+    position: absolute;
+    left: 50px;
+    color: #BFB3A8;
+    font-size: large;
+    font-weight: 800;
+    font-family:'NanumSquare', sans-serif;
+}
+
+.schoolname {
+    position: inherit;
+    color: #7A7067;
+    font-size: xx-large;
+    font-weight: 800;
+}
+
+.menuicon {
+    position: absolute;
+    right: 40px;
+    top: 20px;
+}
+
+.accounticon {
+    position: absolute;
+    right: 100px;
+    top: 20px;
+}
