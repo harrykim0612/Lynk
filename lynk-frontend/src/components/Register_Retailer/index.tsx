@@ -56,7 +56,7 @@ const RegisterRetailer = () => {
         //console.log(payload);
         dispatch(actions.user.userRegister(payload))
         .unwrap()
-        .then((response) => {
+        .then((response: any) => {
             setMessage(response);
             console.log(response.message);
         })

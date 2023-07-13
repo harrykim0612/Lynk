@@ -40,12 +40,13 @@ const Register_Wholesaler = () => {
         setPasswordMatches(password === value);
     }
 
-    // const onChangeAccountType = (value: string) => {
-    //     const index = accountTypeList.indexOf(value);
-    //     // setAccountType(index === -1 ? 0 : index);
-    //   }
+    const onChangeAccountType = (value: string) => {
+        const index = accountTypeList.indexOf(value);
+        // setAccountType(index === -1 ? 0 : index);
+      }
 
-    const onRegister = async() => {
+
+    const onRegister = () => {
         setSent(true);
         let payload = {
             company_name: companyName,
@@ -53,28 +54,49 @@ const Register_Wholesaler = () => {
             password: password,
             account_type: 0
         };
-
-        //Connection with quickbook
-        try {
-            const quickbooksClient = new quickbooks.QuickBooks();
-            const quickbooksResponse = await quickbooksClient.register(payload);
-            
         //console.log(payload);
-            dispatch(actions.user.userRegister(payload))
-                .unwrap()
-                .then((response) => {
-                    setMessage(response);
-                    console.log(response.message);
-                })
-                .catch(function(error) {
-                console.log(error.message)
-                setMessage(error);
-            });
-        } catch (error: any) {
-            console.log(error.message);
+        dispatch(actions.user.userRegister(payload))
+        .unwrap()
+        .then((response) => {
+            setMessage(response);
+            console.log(response.message);
+        })
+        .catch(function(error) {
+            console.log(error.message)
             setMessage(error);
-        }
+        });
     }
+
+    // const onRegister = async() => {
+    //     setSent(true);
+    //     let payload = {
+    //         company_name: companyName,
+    //         email: email,
+    //         password: password,
+    //         account_type: 0
+    //     };
+
+    //     //Connection with quickbook
+    //     try {
+    //         const quickbooksClient = new quickbooks.QuickBooks();
+    //         const quickbooksResponse = await quickbooksClient.register(payload);
+            
+    //     //console.log(payload);
+    //         dispatch(actions.user.userRegister(payload))
+    //             .unwrap()
+    //             .then((response) => {
+    //                 setMessage(response);
+    //                 console.log(response.message);
+    //             })
+    //             .catch(function(error: any) {
+    //             console.log(error.message)
+    //             setMessage(error);
+    //         });
+    //     } catch (error: any) {
+    //         console.log(error.message);
+    //         setMessage(error);
+    //     }
+    // }
 
     useEffect(() => {
         if (email.split("@").length > 1) {
