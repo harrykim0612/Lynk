@@ -1,41 +1,170 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import axios from 'axios';
+import actions from "../../redux/modules"
+import { axiosInstanceUsermanagement } from '../../api';
 
-interface Props {
-  companyName: string;
-}
+const AddFriends = () => {
+  const [wholesaler_id, setWholesaler_ID] = useState('');
+  const [retailer_id, setRetailer_ID] = useState('');
+  const [searchcompany_name, setSearchCompanyName] = useState('');
+  const [searchResults, setSearchResults] = useState<{ company_name: string; retailer_id: string }[]>([]);
 
-const AddFriend: React.FC<Props> = ({ companyName }) => {
-  const [friendCompanyName, setFriendCompanyName] = useState("");
+  const handleSearch = async () => {
+    try {
+      const accountType = sessionStorage.getItem('accountType');
+      let account_type = 0;
+      if (accountType === 'retailer') {
+        account_type = 1;
+      }
+      const response = await axiosInstanceUsermanagement.post('/api/search-friends', {
+        company_name: searchcompany_name,
+        account_type: account_type, 
+      });
+      setSearchResults(response.data.results); // Update the state with the received search results
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(error.response?.data?.message);
+      } else {
+        console.error(error);
+      }
+      setSearchResults([]);
+    }
+  };
 
-  const handleAddFriend = () => {
-    // Code to send friend request using friendCompanyName and companyName
-    if (friendCompanyName === "") {
-      console.log("Please enter a friend's company name.");
-    } else if (friendCompanyName === companyName) {
-      console.log("You cannot send a friend request to your own company.");
-    } else {
-      // Implement your own logic to send the friend request
-      console.log(`Friend request sent from ${companyName} to ${friendCompanyName}`);
-      setFriendCompanyName("");
+  const handleAddFriend = async (retailerId: string) => {
+    try {
+      const response = await axiosInstanceUsermanagement.post('/api/add-friend', {
+        wholesaler_id: wholesaler_id,
+        retailer_id: retailer_id,
+      });
+      console.log(response.data.message); // Friend added successfully
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(error.response?.data?.message);
+      } else {
+        console.error(error);
+      }
     }
   };
 
   return (
     <div>
-      <h2>Add a Friend</h2>
-      <label htmlFor="friendCompanyName">Enter Friend's Company Name:</label>
-      <input
-        type="text"
-        id="friendCompanyName"
-        value={friendCompanyName}
-        onChange={(e) => setFriendCompanyName(e.target.value)}
-      />
-      <button onClick={handleAddFriend}>Send Friend Request</button>
+      <h2>Add Friends</h2>
+      <div>
+        <label>Search by Company Name:</label>
+        <input
+          type="text"
+          value={searchcompany_name}
+          onChange={(e) => setSearchCompanyName(e.target.value)}
+        />
+        <button onClick={handleSearch}>Search</button>
+      </div>
+      <div>
+        <h3>Search Results:</h3>
+        {searchResults.length > 0 ? (
+          <ul>
+            {searchResults.map((result) => (
+              <li key={result.retailer_id}>
+                {result.company_name} - {result.retailer_id}
+                <button onClick={() => handleAddFriend(result.retailer_id)}>Add Friend</button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No results found.</p>
+        )}
+      </div>
     </div>
   );
 };
 
-export default AddFriend;
+export default AddFriends;
+
+// import React, { useState } from 'react';
+// import axios from 'axios';
+
+// const AddFriends = () => {
+//   const [wholesaler_id, setWholesaler_ID] = useState('');
+//   const [retailer_id, setRetailer_ID] = useState('');
+//   const [searchcompany_name, setSearchCompanyName] = useState('');
+//   const [searchResults, setSearchResults] = useState<{ company_name: string; retailer_id: string }[]>([]);
+
+//   const handleSearch = async () => {
+//     try {
+//       const response = await axios.post('/api/wholesalerhome', {
+//         company_name: searchcompany_name,
+//         account_type: 1, // Assuming 1 represents the retailer account type
+//       });
+//       setSearchResults(response.data.message); // Set the search results received from the backend
+//     } catch (error: unknown) {
+//       if (axios.isAxiosError(error)) {
+//         console.error(error.response?.data?.message);
+//       } else {
+//         console.error(error);
+//       }
+//       setSearchResults([]);
+//     }
+//   };
+  
+
+//   const handleAddFriend = async (retailerId: string) => {
+//     try {
+//       const response = await axios.post('/add-friend', {
+//         wholesaler_id: wholesaler_id,
+//         retailer_id: retailerId,
+//       });
+//       console.log(response.data.message); // Friend added successfully
+//     } catch (error: unknown) {
+//       if (axios.isAxiosError(error)) {
+//         console.error(error.response?.data?.message);
+//       } else {
+//         console.error(error);
+//       }
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <h2>Add Friends</h2>
+//       <div>
+//         <label>Wholesaler ID:</label>
+//         <input
+//           type="text"
+//           value={wholesaler_id}
+//           onChange={(e) => setWholesaler_ID(e.target.value)}
+//         />
+//       </div>
+//       <div>
+//         <label>Search by Company Name:</label>
+//         <input
+//           type="text"
+//           value={searchcompany_name}
+//           onChange={(e) => setSearchCompanyName(e.target.value)}
+//         />
+//         <button onClick={handleSearch}>Search</button>
+//       </div>
+//       <div>
+//         <h3>Search Results:</h3>
+//         {searchResults.length > 0 ? (
+//           <ul>
+//             {searchResults.map((result) => (
+//               <li key={result.retailer_id}>
+//                 {result.company_name} - {result.retailer_id}
+//                 <button onClick={() => handleAddFriend(result.retailer_id)}>Add Friend</button>
+//               </li>
+//             ))}
+//           </ul>
+//         ) : (
+//           <p>No results found.</p>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default AddFriends;
+
+
 
 
 
