@@ -36,13 +36,18 @@ const Login = () => {
         dispatch(actions.user.userLogin(payload))
         .unwrap()
         .then((response) => {
+            console.log(response)
             setSent(false);
             setMessage(response.message);
             if (response.account_type === 0) { 
+                sessionStorage.setItem('accountType', 'wholesaler')
+                sessionStorage.setItem('id', response.id)
                 // navigate to wholesaler page if accountType is 0
                 console.log('whole saler');
                 navigate('/wholesalerhome');
             } else if (response.account_type === 1) { 
+                sessionStorage.setItem('accountType', 'retailer')
+                sessionStorage.setItem('id', response.id)
                 // navigate to retailer page if accountType is 1
                 console.log('retailer');
                 navigate('/retailerhome');
@@ -64,6 +69,18 @@ const Login = () => {
         }
     }, [email])
 
+    useEffect(() => {
+        const storedAccountType = sessionStorage.getItem('accountType');
+        if (storedAccountType) {
+            if (storedAccountType === 'wholesaler') {
+                console.log('you have successfully stored account type')
+                navigate('/wholesalerhome');
+            } else if (storedAccountType === 'retailer') {
+                navigate('/retailerhome')
+            }
+        }
+    }, [])
+    
     return (
         <div>
             <div className={styles.title}>
