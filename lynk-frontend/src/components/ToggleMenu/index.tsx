@@ -49,10 +49,11 @@ const ToggleMenu = () => {
     
     // Define behavior when clicking on each button
     const onClickLogout = () => {
+        console.log("clicked");
         window.sessionStorage.removeItem('id');
-        window.sessionStorage.removeItem('userEmail');
-        window.sessionStorage.removeItem('userCreatedAt');
-        window.location.reload();
+        window.sessionStorage.removeItem('email');
+        window.sessionStorage.removeItem('accountType');
+        navigate("/");
     }
 
     let text_array: string[] = ['Settings', 'Saved', 'My activity', 'Report a problem', 'Log out'];
