@@ -11,7 +11,7 @@ connection = pymysql.connect(host='localhost',
 # Create tables if not exist
 def configure_db():
     with connection.cursor() as cursor:
-        cursor.execute("CREATE TABLE IF NOT EXISTS users(company_name VARCHAR(255) NOT NULL,email VARCHAR(255) NOT NULL,password VARCHAR(255) NOT NULL,account_type TINYINT NOT NULL);")
+        cursor.execute("CREATE TABLE IF NOT EXISTS users(id INT PRIMARY KEY AUTO_INCREMENT, company_name VARCHAR(255) NOT NULL,email VARCHAR(255) NOT NULL,password VARCHAR(255) NOT NULL,account_type TINYINT NOT NULL);")
     connection.commit()
 
 # Execute a given line
